@@ -436,7 +436,6 @@ return require("packer").startup(function(use)
         event = "CursorHold",
     })
 
-
     use({
         "michaelb/sniprun",
         run = "bash ./install.sh",
@@ -445,13 +444,12 @@ return require("packer").startup(function(use)
         end,
         event = "CursorHold",
     })
-        use({
-            "stevearc/overseer.nvim",
-            config = function()
-                require("overseer").setup()
-            end,
-        })
-
+    use({
+        "stevearc/overseer.nvim",
+        config = function()
+            require("overseer").setup()
+        end,
+    })
 
     use({
         "kevinhwang91/nvim-hlslens",
@@ -472,5 +470,20 @@ return require("packer").startup(function(use)
     use("famiu/bufdelete.nvim")
     use({
         "ThePrimeagen/harpoon",
+    })
+    use({
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        event = "InsertEnter",
+        config = function()
+            require("config.copilot")
+        end,
+    })
+    use({
+        "zbirenbaum/copilot-cmp",
+        after = "copilot.lua",
+        config = function()
+            require("copilot_cmp").setup()
+        end,
     })
 end)

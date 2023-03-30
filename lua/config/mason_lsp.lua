@@ -18,6 +18,33 @@ require("mason-lspconfig").setup_handlers({
             on_attach = on_attach,
         })
     end,
-    ["rust_analyzer"] = function()
+    -- ["rust_analyzer"] = function()
+    -- end,
+    ["clangd"] = function()
+        capabilities.offsetEncoding = { "utf-16" }
+        require("lspconfig").clangd.setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+        })
+    end,
+    ["pyright"] = function()
+        require("lspconfig").pyright.setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = {
+                pyright = { autoImportCompletion = true },
+                python = {
+                    venvPath = ".",
+                    -- pythonPath = "./.venv/bin/python",
+                    analysis = {
+                        extraPaths = { "." },
+                        autoSearchPaths = true,
+                        diagnosticMode = "openFilesOnly",
+                        useLibraryCodeForTypes = true,
+                        typeCheckingMode = "off",
+                    },
+                },
+            },
+        })
     end,
 })

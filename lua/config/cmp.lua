@@ -24,18 +24,18 @@ cmp.setup({
         documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
-        ["<C-b>"] = cmp.mapping.scroll_docs( -4),
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-j>"] = cmp.mapping.select_next_item(),
         ["<C-k>"] = cmp.mapping.select_prev_item(),
         ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
+            if cmp.visible() and has_words_before() then
+                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
             elseif snippy.can_expand_or_advance() then
                 snippy.expand_or_advance()
             elseif has_words_before() then
@@ -44,11 +44,10 @@ cmp.setup({
                 fallback()
             end
         end, { "i", "s" }),
-
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
-            elseif snippy.can_jump( -1) then
+            elseif snippy.can_jump(-1) then
                 snippy.previous()
             else
                 fallback()
@@ -56,6 +55,7 @@ cmp.setup({
         end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
+        { name = "copilot", group_index = 2 },
         { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
         { name = "snippy" }, -- For snippy users.
@@ -67,7 +67,6 @@ cmp.setup({
             mode = "symbol", -- show only symbol annotations
             maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
             ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-
             -- The function below will be called before any actual modifications from lspkind
             -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
             --before = function (entry, vim_item)
@@ -75,12 +74,15 @@ cmp.setup({
             --return vim_item
             --end
         }),
+        insert_text = require("copilot_cmp.format").remove_existing,
     },
     view = {
         entries = { name = "custom" },
     },
     sorting = {
+        priority_weight = 2,
         comparators = {
+            require("copilot_cmp.comparators").prioritize,
             cmp.config.compare.offset,
             cmp.config.compare.exact,
             cmp.config.compare.score,
@@ -97,9 +99,9 @@ cmp.setup({
 })
 
 require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
-  sources = {
-    { name = "dap" },
-  },
+    sources = {
+        { name = "dap" },
+    },
 })
 
 -- Set configuration for specific filetype.
