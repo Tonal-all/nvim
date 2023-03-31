@@ -1,4 +1,3 @@
-
 require("mason-null-ls").setup({
     ensure_installed = {
         -- Opt to list sources here, when available in mason.
@@ -16,7 +15,9 @@ null_ls.setup({
         null_ls.builtins.diagnostics.flake8,
 
         null_ls.builtins.formatting.prettier,
-        null_ls.builtins.formatting.clang_format,
+        null_ls.builtins.formatting.clang_format.with{
+            extra_args = {"--style=Google"}
+        },
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.beautysh,
         null_ls.builtins.formatting.cmake_format,
@@ -34,6 +35,9 @@ null_ls.setup({
         if client.server_capabilities.document_formatting then
             vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
         end
+    end,
+    on_init = function(new_client, _)
+        new_client.offset_encoding = "utf-16"
     end,
 })
 -- require("mason-null-ls").setup_handlers()

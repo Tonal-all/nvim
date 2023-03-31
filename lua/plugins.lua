@@ -471,6 +471,7 @@ return require("packer").startup(function(use)
     use({
         "ThePrimeagen/harpoon",
     })
+    use("aduros/ai.vim")
     use({
         "zbirenbaum/copilot.lua",
         cmd = "Copilot",

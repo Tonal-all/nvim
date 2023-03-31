@@ -2,7 +2,7 @@ local mason_registry = require("mason-registry")
 local clangd_executable = mason_registry.get_package("clangd"):get_install_path() .. "/clangd/bin/clangd"
 require("clangd_extensions").setup({
     server = {
-        cmd = { clangd_executable, "--query-driver=/**/*", "--clang-tidy" },
+        cmd = { clangd_executable, "--query-driver=/**/*", "--clang-tidy" ,"--offset-encoding=utf-16"},
         capabilities = require("cmp_nvim_lsp").default_capabilities(),
         on_attach = function(client, bufnr)
             require("nvim-navic").attach(client, bufnr)
