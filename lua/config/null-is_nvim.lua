@@ -1,10 +1,10 @@
-require("mason-null-ls").setup({
-    ensure_installed = {
-        -- Opt to list sources here, when available in mason.
-    },
-    automatic_installation = true,
-    automatic_setup = false, -- Recommended, but optional
-})
+-- require("mason-null-ls").setup({
+--     ensure_installed = {
+--         -- Opt to list sources here, when available in mason.
+--     },
+--     automatic_installation = true,
+--     automatic_setup = false, -- Recommended, but optional
+-- })
 local null_ls = require("null-ls")
 null_ls.setup({
     sources = {
@@ -36,8 +36,8 @@ null_ls.setup({
             vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
         end
     end,
-    on_init = function(new_client, _)
-        new_client.offset_encoding = "utf-16"
-    end,
+    -- on_init = function(new_client, _)
+    --     new_client.offset_encoding = "utf-16"
+    -- end,
 })
 -- require("mason-null-ls").setup_handlers()

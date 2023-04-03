@@ -18,7 +18,14 @@ require("nvim-treesitter.configs").setup({
         "vue",
         "php",
         "html",
+        "cpp",
+        "c",
+        "gitcommit",
+        "java",
+        "kotlin",
+        "sql",
     },
+    auto_install = false,
     -- ignore_install = { "html" },
     highlight = {
         enable = true,
@@ -41,7 +48,6 @@ require("nvim-treesitter.configs").setup({
                 ["aa"] = "@parameter.outer",
                 ["ia"] = "@parameter.inner",
                 ["uc"] = "@comment.outer",
-
                 -- Or you can define your own textobjects like this
                 -- ["iF"] = {
                 --     python = "(function_definition) @function",

@@ -20,13 +20,13 @@ require("mason-lspconfig").setup_handlers({
     end,
     -- ["rust_analyzer"] = function()
     -- end,
-    -- ["clangd"] = function()
-    --     capabilities.offsetEncoding = { "utf-16" }
-    --     require("lspconfig").clangd.setup({
-    --         capabilities = capabilities,
-    --         on_attach = on_attach,
-    --     })
-    -- end,
+    ["clangd"] = function()
+        capabilities.offsetEncoding = { "utf-16" }
+        require("lspconfig").clangd.setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+        })
+    end,
     ["pyright"] = function()
         require("lspconfig").pyright.setup({
             capabilities = capabilities,

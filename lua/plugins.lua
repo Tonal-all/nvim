@@ -8,6 +8,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 })
 
 return require("packer").startup(function(use)
+    use("lewis6991/impatient.nvim")
     use("wbthomason/packer.nvim")
     use("nvim-lua/plenary.nvim")
     use("tpope/vim-unimpaired")
@@ -156,7 +157,6 @@ return require("packer").startup(function(use)
         end,
         requires = {
             "SmiteshP/nvim-navic",
-            "chapel-lang/mason-registry",
             "hrsh7th/cmp-nvim-lsp",
         },
         after = "mason.nvim",
@@ -166,13 +166,7 @@ return require("packer").startup(function(use)
         config = function()
             require("config.clangd_ext")
         end,
-        requires = {
-            "chapel-lang/mason-registry",
-        },
         after = "mason.nvim",
-    })
-    use({
-        "chapel-lang/mason-registry",
     })
     use({
         "j-hui/fidget.nvim",
@@ -185,7 +179,6 @@ return require("packer").startup(function(use)
         requires = {
             "rcarriga/nvim-dap-ui",
             "theHamsta/nvim-dap-virtual-text",
-            "chapel-lang/mason-registry",
             "mfussenegger/nvim-dap-python",
             "jay-babu/mason-nvim-dap.nvim",
         },
@@ -196,9 +189,9 @@ return require("packer").startup(function(use)
     })
     use({
         "jose-elias-alvarez/null-ls.nvim",
-        requires = {
-            "jay-babu/mason-null-ls.nvim",
-        },
+        -- requires = {
+        --     "jay-babu/mason-null-ls.nvim",
+        -- },
         config = function()
             require("config.null-is_nvim")
         end,
@@ -404,7 +397,6 @@ return require("packer").startup(function(use)
         end,
     })
     -- use("liuchengxu/vim-clap")
-    use("lewis6991/impatient.nvim")
     -- use("puremourning/vimspector")
     use("RRethy/vim-illuminate")
     use({
