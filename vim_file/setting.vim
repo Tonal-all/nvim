@@ -1,5 +1,6 @@
 set laststatus=2  "永远显示状态栏
 set t_Co=256      "在windows中用xshell连接打开vim可以显示色彩
+let g:ai_no_mappings = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:VM_set_statusline=0
@@ -36,6 +37,11 @@ if has("win16") || has("win32")
 else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
+ if exists('+termguicolors')
+        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+        set termguicolors
+  endif
 
 " Always show current position
 set ruler
@@ -241,3 +247,6 @@ nnoremap <silent> <Space>m :<c-u>lua require("harpoon.ui").toggle_quick_menu()<C
 nnoremap <silent> <leader>l :<c-u>lua require("harpoon.ui").nav_next()<CR>
 nnoremap <silent> <leader>h :<c-u>lua require("harpoon.ui").nav_prev()<CR>
 
+nnoremap <M-a> :<c-u>AI 
+vnoremap <M-a> :<c-u>AI 
+inoremap <M-a> :<Esc>:AI<CR>a 

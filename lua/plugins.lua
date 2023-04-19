@@ -275,7 +275,7 @@ return require("packer").startup(function(use)
     use({
         {
             "nvim-treesitter/nvim-treesitter",
-            event = "BufReadPost",
+            event = "BufRead",
             run = function()
                 require("nvim-treesitter.install").update({ with_sync = true })
             end,
@@ -477,6 +477,15 @@ return require("packer").startup(function(use)
         after = "copilot.lua",
         config = function()
             require("copilot_cmp").setup()
+        end,
+    })
+    use({
+        "nvim-neorg/neorg",
+        -- tag = "*",
+        ft = "norg",
+        after = "nvim-treesitter", -- You may want to specify Telescope here as well
+        config = function()
+            require("config.neorg")
         end,
     })
 end)

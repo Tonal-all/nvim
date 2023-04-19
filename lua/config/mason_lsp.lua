@@ -48,3 +48,9 @@ require("mason-lspconfig").setup_handlers({
         })
     end,
 })
+require("lspconfig").scheme_langserver.setup({
+    cmd = { "/root/.local/opt/scheme-langserver/run", "/root/.local/opt/scheme-langserver/run.log", "enable" },
+    capabilities = capabilities,
+    on_attach = on_attach,
+})
+vim.cmd([[ au BufRead,BufNewFile *.sls set filetype=scheme ]])
