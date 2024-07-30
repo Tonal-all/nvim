@@ -1,3 +1,6 @@
+inoremap <M-s> std::
+
+
 scriptencoding utf-8
 
 if has_key(b:, 'did_macros_c_style')
@@ -46,3 +49,4 @@ setlocal cinoptions+=*30 " Unclosed comments up to 30 lines away
 
 setlocal foldcolumn=2
 setlocal foldmethod=syntax
+

@@ -37,6 +37,8 @@ end
 require("lualine").setup({
     options = {
         theme = "edge",
+        component_separators = "",
+        section_separators = { left = "", right = "" },
     },
     sections = {
         lualine_a = {
@@ -50,6 +52,6 @@ require("lualine").setup({
         },
         lualine_b = { { "b:gitsigns_head", icon = "" }, { "diff", source = diff_source }, "diagnostics" },
         lualine_c = { { "filename", fmt = trunc(90, 30, 50) } },
-        lualine_y = { "progress" ,keymap},
+        lualine_y = { "progress", keymap },
     },
 })

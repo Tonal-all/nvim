@@ -1,3 +1,7 @@
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+let g:vimtex_compiler_method = 'latexrun'
 set laststatus=2  "永远显示状态栏
 set t_Co=256      "在windows中用xshell连接打开vim可以显示色彩
 let g:ai_no_mappings = 1
@@ -12,6 +16,7 @@ let g:VM_maps["Select All"]                  = '<M-s>'
 let g:VM_maps["Visual Cursors"]              = '<C-s>'
 let g:winresizer_vert_resize = 1
 let g:winresizer_horiz_resize = 1
+let maplocalleader = ';'
 map ; <Leader>
 set hidden
 set updatetime=200
@@ -103,7 +108,7 @@ let g:gruvbox_italic=1
 let g:edge_style = 'neon'
 let g:edge_better_performance = 1
 let g:airline_theme = 'edge'
-colorscheme edge
+" colorscheme edge
 
 
 " let g:airline_theme='minimalist' " 'minimalist'
@@ -161,6 +166,13 @@ au FocusGained,BufEnter * checktime
 if has("gui_macvim")
     autocmd GUIEnter * set vb t_vb=
 endif
+if exists('$TMUX')
+  let &t_SI = "\<Esc>]12;cyan\x7"
+  let &t_EI = "\<Esc>]12\x7"
+endif
+autocmd BufRead,BufNewFile *.v :Copilot disable
+autocmd BufRead,BufNewFile *.v setfiletype verilog
+
 
 "-------------------------------
 cnoremap <C-p> <Up>
@@ -176,7 +188,8 @@ vnoremap Y "+y
 nnoremap Y "+y
 nnoremap <Space>p "+p
 nmap <leader>w :w!<cr>
-
+" map <C-;> <Esc>
+" imap <C-;> <Esc>
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
@@ -189,8 +202,8 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 map <C-j> <C-W>j
 map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+map <C-l> :bnext<cr>
+map <C-h> :bprevious<cr>
 
 
 " Close the current buffer
@@ -199,8 +212,10 @@ map <leader>bd :<c-u>bd<cr>
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
-map <Space>l :bnext<cr>
-map <Space>h :bprevious<cr>
+map <Space>l <C-W>l
+map <Space>h <C-W>h
+map <Space>j <C-W>j
+map <Space>k <C-W>k
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
@@ -227,10 +242,15 @@ inoremap <M-j> <Down>
 inoremap <M-k> <Up>
 inoremap <M-h> <Left>
 inoremap <M-l> <Right>
+inoremap <M-;> <Del>
 nnoremap <M-h> :<C-u>tabprevious<cr>
 nnoremap <M-l> :<C-u>tabnext<cr>
 
-nnoremap <silent> <Space>n :noh<cr><c-l>
+inoremap <Char-0x1f> <ESC>
+noremap <Char-0x1f> <ESC>
+cnoremap <Char-0x1f> <C-c>
+
+nnoremap <silent> <Space>n :noh<bar>SnipClose<cr><c-l>
 nnoremap <leader>v :<c-u>source ~/.config/nvim/init.vim<bar>AirlineRefresh<cr>
 map <C-q> <C-w>q
 
@@ -250,3 +270,18 @@ nnoremap <silent> <leader>h :<c-u>lua require("harpoon.ui").nav_prev()<CR>
 nnoremap <M-a> :<c-u>AI 
 vnoremap <M-a> :<c-u>AI 
 inoremap <M-a> :<Esc>:AI<CR>a 
+
+" vim-translator
+" Echo translation in the cmdline
+nmap <silent> <Leader>d <Plug>Translate
+vmap <silent> <Leader>d <Plug>TranslateV
+" Display translation in a window
+nmap <silent> <Leader>e <Plug>TranslateW
+vmap <silent> <Leader>e <Plug>TranslateWV
+" Replace the text with translation
+nmap <silent> <Leader>r <Plug>TranslateR
+vmap <silent> <Leader>r <Plug>TranslateRV
+" Translate the text in clipboard
+nmap <silent> <Leader>x <Plug>TranslateX
+
+nmap <silent> <leader>q :Bd<cr>

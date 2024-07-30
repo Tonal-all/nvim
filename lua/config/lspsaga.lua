@@ -158,7 +158,7 @@ require("lspsaga").setup({
         border_follow = true,
         keys = {
             exec_action = "o",
-            quit = "q",
+            quit = {"q", "<Esc>"},
             go_action = "g",
         },
     },

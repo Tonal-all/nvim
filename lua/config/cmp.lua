@@ -9,6 +9,8 @@ local lspkind = require("lspkind")
 local cmp = require("cmp")
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 local i = 0
+-- window size
+vim.o.pumheight = 16
 cmp.setup({
     snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -22,20 +24,21 @@ cmp.setup({
     window = {
         completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
+    --b--border = 'single'
     },
     mapping = cmp.mapping.preset.insert({
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         ["<C-p>"] = cmp.mapping.select_prev_item(),
         ["<C-n>"] = cmp.mapping.select_next_item(),
         ["<C-j>"] = cmp.mapping.select_next_item(),
         ["<C-k>"] = cmp.mapping.select_prev_item(),
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() and has_words_before() then
-                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                cmp.select_next_item({ behavior = cmp.SelectBehavior.Replace })
             elseif snippy.can_expand_or_advance() then
                 snippy.expand_or_advance()
             elseif has_words_before() then
@@ -46,7 +49,7 @@ cmp.setup({
         end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
-                cmp.select_prev_item()
+                cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
             elseif snippy.can_jump(-1) then
                 snippy.previous()
             else
@@ -56,7 +59,8 @@ cmp.setup({
     }),
     sources = cmp.config.sources({
         { name = "neorg" },
-        { name = "copilot", group_index = 2 },
+        { name = "omni" },
+        { name = "copilot",                group_index = 2 },
         { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
         { name = "snippy" }, -- For snippy users.
